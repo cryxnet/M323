@@ -8,9 +8,9 @@
 type Position = (Int, Int)
 
 // Define board dimensions and number of queens
-val BOARD_HEIGHT = 8
-val BOARD_LENGTH = 8
-val QUEEN_NUMBER = 8
+val BOARD_HEIGHT = 12
+val BOARD_LENGTH = 20
+val QUEEN_NUMBER = 3
 
 object QueensProblem {
 
