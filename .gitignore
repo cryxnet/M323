@@ -1,7 +1,11 @@
-*.ss~
-*.ss#*
-.#*.ss
+*.class
+*.log
 
-*.scm~
-*.scm#*
-.#*.scm
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+.bsp
+.metals
+.scala-build
+.vscode
+# End of https://mrkandreev.name/snippets/gitignore-generator/#Scala
