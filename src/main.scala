@@ -7,11 +7,6 @@
 // Define type alias for position
 type Position = (Int, Int)
 
-// Define board dimensions and number of queens
-val BOARD_HEIGHT = 12
-val BOARD_LENGTH = 12
-val QUEEN_NUMBER = 4
-
 object QueensProblem {
 
   /**
@@ -38,15 +33,16 @@ object QueensProblem {
   /**
    * Place queens on the board using recursion and backtracking.
    * @param n The number of queens to place.
+   * @param height The height of the board.
    * @return A list of all possible solutions, where each solution is a list of queen positions.
    */
-  def placeQueens(n: Int): List[List[Position]] = {
+  def placeQueens(n: Int, height: Int): List[List[Position]] = {
     def placeQueensRec(k: Int): List[List[Position]] = {
       if (k == 0) List(List.empty)
       else {
         for {
           queens <- placeQueensRec(k - 1)
-          row <- 0 until BOARD_HEIGHT
+          row <- 0 until height
           newQueen = (k - 1, row)
           if isSafe(queens, newQueen)
         } yield newQueen :: queens
@@ -58,10 +54,11 @@ object QueensProblem {
   /**
    * Display the board with queens placed.
    * @param queens The list of queen positions.
-   * @param n The dimensions of the board (n x n).
+   * @param height The height of the board.
+   * @param length The length of the board.
    */
-  def showBoard(queens: List[Position], n: Int): Unit = {
-    val board = Array.fill(n, n)(".")
+  def showBoard(queens: List[Position], height: Int, length: Int): Unit = {
+    val board = Array.fill(height, length)(".")
     queens.foreach { case (x, y) => board(x)(y) = "Q" }
     board.foreach(row => println(row.mkString(" ")))
     println()
@@ -71,15 +68,31 @@ object QueensProblem {
 // Main method to execute the program
 /* 
 * Main method to execute the program
-* @args --show-board to print out all posibilities 
+* @args --show-board to print out all possibilities 
 */
 object Main {
   def main(args: Array[String]): Unit = {
     val showBoard = args.contains("--show-board")
-    val solutions = QueensProblem.placeQueens(QUEEN_NUMBER)
+    
+    val boardHeight = args.indexOf("--height") match {
+      case i if i >= 0 && i + 1 < args.length => args(i + 1).toInt
+      case _ => 12
+    }
+
+    val boardLength = args.indexOf("--length") match {
+      case i if i >= 0 && i + 1 < args.length => args(i + 1).toInt
+      case _ => 12
+    }
+
+    val queenNumber = args.indexOf("--queens") match {
+      case i if i >= 0 && i + 1 < args.length => args(i + 1).toInt
+      case _ => 4
+    }
+
+    val solutions = QueensProblem.placeQueens(queenNumber, boardHeight)
     println(s"Found ${solutions.length} solutions.")
     if (showBoard) {
-      solutions.foreach(QueensProblem.showBoard(_, BOARD_HEIGHT))
+      solutions.foreach(QueensProblem.showBoard(_, boardHeight, boardLength))
     }
   }
 }

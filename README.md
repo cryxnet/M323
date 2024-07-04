@@ -41,11 +41,11 @@ scala main.scala
 2. **Specify custom board dimensions and number of queens**:
 
 ```sh
-scala main.scala --board-height 10 --board-length 15 --queen-number 5
+scala main.scala --height 8 --length 8 --queens 8
 ```
 
 3. **Display all possible board configurations**:
 
 ```sh
-scala main.scala --board-height 8 --board-length 8 --queen-number 8 --show-board
+scala main.scala --height 8 --length 8 --queens 8 --show-board
 ```
