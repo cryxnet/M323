@@ -1,8 +1,6 @@
-/**
- * Scala application to solve the N-Queens problem using recursion and backtracking.
- * The application will also use functional programming principles such as immutability, pure functions,
- * and higher-order functions.
- */
+import scala.concurrent.{Future, Await}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 
 object QueensProblem {
   type Position = (Int, Int)
@@ -29,24 +27,30 @@ object QueensProblem {
     queens.forall(!threatens(_, position))
 
   /**
-   * Place queens on the board using recursion and backtracking.
+   * Place queens on the board using recursion and backtracking with parallel processing.
    * @param n The number of queens to place.
    * @param height The height of the board.
    * @return A list of all possible solutions, where each solution is a list of queen positions.
    */
   def placeQueens(n: Int, height: Int): List[List[Position]] = {
-    def placeQueensRec(k: Int): List[List[Position]] = {
-      if (k == 0) List(List.empty)
+    def placeQueensRec(k: Int): Future[List[List[Position]]] = {
+      if (k == 0) Future.successful(List(List.empty))
       else {
-        for {
-          queens <- placeQueensRec(k - 1)
-          row <- 0 until height
-          newQueen = (k - 1, row)
-          if isSafe(queens, newQueen)
-        } yield newQueen :: queens
+        val futureSolutions = placeQueensRec(k - 1).flatMap { queensList =>
+          val futures = for {
+            queens <- queensList
+            row <- 0 until height
+            newQueen = (k - 1, row)
+            if isSafe(queens, newQueen)
+          } yield Future.successful(newQueen :: queens)
+
+          Future.sequence(futures)
+        }
+        futureSolutions
       }
     }
-    placeQueensRec(n)
+
+    Await.result(placeQueensRec(n), Duration.Inf)
   }
 
   /**
@@ -86,11 +90,21 @@ object Main {
       case i if i >= 0 && i + 1 < args.length => args(i + 1).toInt
       case _ => 4
     }
-
     val solutions = QueensProblem.placeQueens(queenNumber, boardHeight)
     println(s"Found ${solutions.length} solutions.")
     if (showBoard) {
       solutions.foreach(QueensProblem.showBoard(_, boardHeight, boardLength))
     }
+  }
+
+  /**
+   * Helper method to get the value of a command line argument.
+   * @param args The array of arguments.
+   * @param argName The name of the argument to find.
+   * @return An Option containing the value of the argument if found, or None.
+   */
+  def getArgumentValue(args: Array[String], argName: String): Option[String] = {
+    val index = args.indexOf(argName)
+    if (index >= 0 && index + 1 < args.length) Some(args(index + 1)) else None
   }
 }
