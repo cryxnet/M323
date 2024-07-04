@@ -4,10 +4,8 @@
  * and higher-order functions.
  */
 
-// Define type alias for position
-type Position = (Int, Int)
-
 object QueensProblem {
+  type Position = (Int, Int)
 
   /**
    * Check if two queens threaten each other.
