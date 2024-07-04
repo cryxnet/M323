@@ -47,6 +47,28 @@ object QueensProblem {
       }
     }
     placeQueensRec(n)
+
+     def writeSolutionsToFile(path: String, content: String) = {
+    val writer = new PrintWriter(path)
+    try {
+      writer.write(content)
+    } finally {
+      writer.close()
+    }
+  }
+
+  def printBoard(
+      solutions: List[List[Position]],
+      height: Int,
+      length: Int
+  ): String = {
+    solutions.foldLeft("") { (acc, queens) =>
+      val board = Array.fill(height, length)(".")
+      queens.foreach { case (x, y) => board(x)(y) = "Q" }
+      val boardRepresentation = board.map(_.mkString(" ")).mkString("\n")
+      acc + boardRepresentation + "\n\n"
+    }
+  }
   }
 
   /**
@@ -91,6 +113,11 @@ object Main {
     println(s"Found ${solutions.length} solutions.")
     if (showBoard) {
       solutions.foreach(QueensProblem.showBoard(_, boardHeight, boardLength))
+    }
+    if (printSolutions) {
+      val solutionContent =
+        QueensProblem.printBoard(solutions, boardHeight, boardLength)
+      QueensProblem.writeSolutionsToFile("solutions.txt", solutionContent)
     }
   }
 }
