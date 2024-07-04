@@ -25,9 +25,9 @@ scala main.scala [options]
 
 ### Command-Line Options
 
-- `--board-height <height>`: Specifies the height of the board. Default is `12`.
-- `--board-length <length>`: Specifies the length of the board. Default is `20`.
-- `--queen-number <number>`: Specifies the number of queens. Default is `3`.
+- `--height <height>`: Specifies the height of the board. Default is `12`.
+- `--length <length>`: Specifies the length of the board. Default is `20`.
+- `--queens <number>`: Specifies the number of queens. Default is `3`.
 - `--show-board`: If present, the program will print out all possible board configurations. Otherwise, it will only print the count of solutions.
 
 ### Examples
