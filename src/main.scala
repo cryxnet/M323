@@ -9,8 +9,8 @@ type Position = (Int, Int)
 
 // Define board dimensions and number of queens
 val BOARD_HEIGHT = 12
-val BOARD_LENGTH = 20
-val QUEEN_NUMBER = 3
+val BOARD_LENGTH = 12
+val QUEEN_NUMBER = 4
 
 object QueensProblem {
 
@@ -69,10 +69,17 @@ object QueensProblem {
 }
 
 // Main method to execute the program
+/* 
+* Main method to execute the program
+* @args --show-board to print out all posibilities 
+*/
 object Main {
   def main(args: Array[String]): Unit = {
+    val showBoard = args.contains("--show-board")
     val solutions = QueensProblem.placeQueens(QUEEN_NUMBER)
     println(s"Found ${solutions.length} solutions.")
-    solutions.foreach(QueensProblem.showBoard(_, BOARD_HEIGHT))
+    if (showBoard) {
+      solutions.foreach(QueensProblem.showBoard(_, BOARD_HEIGHT))
+    }
   }
 }
