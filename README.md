@@ -1,210 +1,52 @@
-# M323
-Functional Programming Module @ TBZ
+# Scala N-Queens Problem Solver
 
-Repo: https://gitlab.com/ch-tbz-it/Stud/m323/m323/-/tree/main?ref_type=heads
+This Scala application solves the N-Queens problem using recursion and backtracking. It employs functional programming principles such as immutability, pure functions, and higher-order functions. The application allows users to specify board dimensions, the number of queens, and whether to display all possible solutions or just the count.
 
-## Guide
+## Features
 
-## Scala Crash Course
+- Solves the N-Queens problem for any board size and number of queens.
+- Utilizes recursion and backtracking for the solution.
+- Implements functional programming principles.
+- Command-line interface for setting board dimensions and number of queens.
+- Option to display all solutions or just the count of solutions.
 
-### Introduction to Scala
+## Prerequisites
 
-Scala is a high-level, statically-typed programming language that combines functional and object-oriented programming paradigms. It is designed to be concise and powerful, enabling the construction of robust, high-performance applications.
+- Scala (version 2.12 or later)
+- Java JDK (version 8 or later)
 
-### Getting Started
+## Usage
 
-#### Setting Up Scala
+To compile and run the program, use the following commands:
 
-1. **Install Java Development Kit (JDK)**
-   - Scala runs on the Java Virtual Machine (JVM), so you'll need the JDK installed.
-   - Download and install from [Oracle's official site](https://www.oracle.com/java/technologies/javase-downloads.html) or use a package manager like Homebrew on macOS (`brew install openjdk`).
-
-2. **Install Scala**
-   - The easiest way to install Scala is via the Scala Build Tool (SBT).
-   - Download and install SBT from [Scala's official site](https://www.scala-lang.org/download/).
-
-3. **Verify Installation**
-   - Open a terminal and type `scala -version` to check if Scala is installed correctly.
-
-### Basic Syntax
-
-#### Hello World
-
-```scala
-object HelloWorld {
-  def main(args: Array[String]): Unit = {
-    println("Hello, world!")
-  }
-}
+```sh
+scalac Main.scala
+scala Main [options]
 ```
 
-- **object**: Defines a singleton object (a class with a single instance).
-- **def**: Defines a method.
-- **main**: Entry point of the Scala application.
-- **Unit**: Equivalent to `void` in other languages, indicates the method returns no value.
+### Command-Line Options
 
-#### Variables and Data Types
+- `--board-height <height>`: Specifies the height of the board. Default is `12`.
+- `--board-length <length>`: Specifies the length of the board. Default is `20`.
+- `--queen-number <number>`: Specifies the number of queens. Default is `3`.
+- `--show-board`: If present, the program will print out all possible board configurations. Otherwise, it will only print the count of solutions.
 
-Scala has two types of variables:
+### Examples
 
-- **val**: Immutable variable (like `final` in Java).
-- **var**: Mutable variable.
+1. **Run with default values**:
 
-```scala
-val immutableVariable: Int = 10
-var mutableVariable: String = "Hello"
+```sh
+scala main.scala
 ```
 
-#### Data Types
+2. **Specify custom board dimensions and number of queens**:
 
-- **Int**: 32-bit integer.
-- **Long**: 64-bit integer.
-- **Float**: 32-bit floating-point.
-- **Double**: 64-bit floating-point.
-- **Boolean**: `true` or `false`.
-- **Char**: 16-bit Unicode character.
-- **String**: A sequence of characters.
-
-### Control Structures
-
-#### If-Else
-
-```scala
-val x = 10
-val result = if (x > 0) "Positive" else "Negative"
+```sh
+scala main.scala --board-height 10 --board-length 15 --queen-number 5
 ```
 
-#### Match (Pattern Matching)
+3. **Display all possible board configurations**:
 
-```scala
-val number = 10
-val result = number match {
-  case 0 => "Zero"
-  case 1 => "One"
-  case _ => "Other"
-}
+```sh
+scala main.scala --board-height 8 --board-length 8 --queen-number 8 --show-board
 ```
-
-### Functions
-
-#### Defining Functions
-
-```scala
-def add(a: Int, b: Int): Int = {
-  a + b
-}
-```
-
-#### Anonymous Functions (Lambdas)
-
-```scala
-val add = (a: Int, b: Int) => a + b
-```
-
-### Collections
-
-#### Lists
-
-```scala
-val list = List(1, 2, 3, 4, 5)
-```
-
-#### Arrays
-
-```scala
-val array = Array(1, 2, 3, 4, 5)
-```
-
-#### Maps
-
-```scala
-val map = Map("one" -> 1, "two" -> 2, "three" -> 3)
-```
-
-#### Tuples
-
-```scala
-val tuple = (1, "one", true)
-```
-
-### Object-Oriented Programming
-
-#### Classes
-
-```scala
-class Person(val name: String, val age: Int) {
-  def greet(): String = s"Hello, my name is $name and I am $age years old."
-}
-
-val person = new Person("John", 30)
-println(person.greet())
-```
-
-#### Traits
-
-Traits are similar to interfaces in Java.
-
-```scala
-trait Greetable {
-  def greet(): String
-}
-
-class Person(val name: String) extends Greetable {
-  def greet(): String = s"Hello, my name is $name."
-}
-
-val person = new Person("John")
-println(person.greet())
-```
-
-### Functional Programming
-
-#### Higher-Order Functions
-
-Functions that take other functions as parameters or return functions.
-
-```scala
-def applyFunction(f: Int => Int, x: Int): Int = f(x)
-
-val increment = (x: Int) => x + 1
-println(applyFunction(increment, 5)) // Output: 6
-```
-
-#### Map, Filter, Reduce
-
-```scala
-val numbers = List(1, 2, 3, 4, 5)
-
-val doubled = numbers.map(_ * 2)
-val even = numbers.filter(_ % 2 == 0)
-val sum = numbers.reduce(_ + _)
-
-println(doubled) // Output: List(2, 4, 6, 8, 10)
-println(even)    // Output: List(2, 4)
-println(sum)     // Output: 15
-```
-
-### Concurrency
-
-Scala provides several libraries for concurrency, such as `Future` and `Akka`.
-
-#### Futures
-
-```scala
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-
-val future = Future {
-  Thread.sleep(1000)
-  42
-}
-
-future.onComplete {
-  case Success(value) => println(s"The answer is $value")
-  case Failure(e) => e.printStackTrace()
-}
-```
-
-### Conclusion
-
-This crash course covers the basics of Scala. For a more in-depth study, consider exploring Scala's official documentation, online tutorials, and courses. Scala's rich ecosystem and expressive syntax make it a powerful tool for both object-oriented and functional programming.
