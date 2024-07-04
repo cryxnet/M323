@@ -20,8 +20,7 @@ This Scala application solves the N-Queens problem using recursion and backtrack
 To compile and run the program, use the following commands:
 
 ```sh
-scalac Main.scala
-scala Main [options]
+scala main.scala [options]
 ```
 
 ### Command-Line Options
