@@ -71,7 +71,7 @@ object QueensProblem {
 * @args --show-board to print out all possibilities 
 */
 object Main {
-  @main def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit = {
     val showBoard = args.contains("--show-board")
     
     val boardHeight = args.indexOf("--height") match {
